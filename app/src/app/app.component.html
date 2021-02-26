@@ -8,6 +8,14 @@
 
   <body>
     <h1>{{ title }}</h1>
-    <router-outlet></router-outlet>
+
+    <ng-container *ngIf="auth.user | async as user; else showLogin">
+      <router-outlet></router-outlet>
+      <a href="javascript:void(0);" (click)="logOut()">Log out</a>
+    </ng-container>
+
+    <ng-template #showLogin>
+      <a href="javascript:void(0);" (click)="logIn()">Log in</a>
+    </ng-template>
   </body>
 </html>
