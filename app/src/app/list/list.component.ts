@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { List } from '../types';
+import { YataService } from '../yata.service';
 
 @Component({
   selector: 'app-list',
@@ -8,28 +10,11 @@ import { List } from '../types';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-  list: List = {
-    id: 'my-id',
-    name: 'My List',
-    items: [
-      {
-        id: '0',
-        text: 'my first item',
-        isDone: false,
-      },
-      {
-        id: '1',
-        text: 'my second item',
-        isDone: true,
-      },
-    ],
-  };
+  list$: Observable<List>;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(route: ActivatedRoute, yataService: YataService) {
+    this.list$ = yataService.getList(route.snapshot.paramMap.get('id') || '');
+  }
 
   ngOnInit(): void {}
-
-  getItems(): string {
-    return this.route.snapshot.paramMap.get('id') || '';
-  }
 }

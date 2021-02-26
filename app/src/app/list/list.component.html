@@ -1,7 +1,12 @@
-<h1>{{ list.name }}</h1>
+<ng-container *ngIf="list$ | async as list">
+  <h1>{{ list.name }}</h1>
 
-<ul>
-  <li *ngFor="let item of list.items" [ngClass]="{ 'item-done': item.isDone }">
-    {{ item.text }}
-  </li>
-</ul>
+  <ul>
+    <li
+      *ngFor="let item of list.items"
+      [ngClass]="{ 'item-done': item.isDone }"
+    >
+      {{ item.text }}
+    </li>
+  </ul>
+</ng-container>

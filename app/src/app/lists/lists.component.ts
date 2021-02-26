@@ -11,7 +11,7 @@ import { List } from '../types';
 export class ListsComponent implements OnInit {
   lists$: Observable<List[]>;
 
-  constructor(private yataService: YataService) {
+  constructor(yataService: YataService) {
     this.lists$ = yataService.getLists();
   }
 
