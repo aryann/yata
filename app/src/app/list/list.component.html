@@ -2,12 +2,14 @@
   <h1>{{ list.name }}</h1>
 
   <ul>
-    <li
-      *ngFor="let item of list.items; let i = index"
-      [ngClass]="{ 'item-done': item.isDone }"
-      (click)="mark(list, i)"
-    >
-      {{ item.text }}
+    <li *ngFor="let item of list.items; let i = index">
+      <span
+        (click)="markItem(list, i)"
+        [ngClass]="{ 'item-done': item.isDone }"
+        >{{ item.text }}</span
+      >
+      &middot;
+      <a href="javascript:void(0);" (click)="deleteItem(list, i)">delete</a>
     </li>
   </ul>
 
