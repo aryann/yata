@@ -14,7 +14,9 @@ export class YataService {
   constructor(private firestore: AngularFirestore) {}
 
   getLists(): Observable<List[]> {
-    return this.listsRef().valueChanges({ idField: 'id' });
+    return this.firestore
+      .collection<List>('lists', (ref) => ref.orderBy('name'))
+      .valueChanges({ idField: 'id' });
   }
 
   makeNewList(list: List) {
