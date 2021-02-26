@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { List } from './types';
 
@@ -11,9 +12,11 @@ export class YataService {
     { id: 'my-list-2', name: 'My List 2', items: [] },
   ];
 
-  constructor() {}
+  constructor(private firestore: AngularFirestore) {}
 
   getLists(): Observable<List[]> {
-    return of(this.fakeData);
+    return this.firestore
+      .collection<List>('lists')
+      .valueChanges({ idField: 'id' });
   }
 }
