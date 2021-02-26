@@ -3,8 +3,9 @@
 
   <ul>
     <li
-      *ngFor="let item of list.items"
+      *ngFor="let item of list.items; let i = index"
       [ngClass]="{ 'item-done': item.isDone }"
+      (click)="mark(list, i)"
     >
       {{ item.text }}
     </li>

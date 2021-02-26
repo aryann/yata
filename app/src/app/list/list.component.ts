@@ -12,9 +12,14 @@ import { YataService } from '../yata.service';
 export class ListComponent implements OnInit {
   list$: Observable<List>;
 
-  constructor(route: ActivatedRoute, yataService: YataService) {
+  constructor(route: ActivatedRoute, private yataService: YataService) {
     this.list$ = yataService.getList(route.snapshot.paramMap.get('id') || '');
   }
 
   ngOnInit(): void {}
+
+  mark(list: List, itemIndex: number) {
+    list.items[itemIndex].isDone = !list.items[itemIndex].isDone;
+    this.yataService.updateList(list);
+  }
 }
