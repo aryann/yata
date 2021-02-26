@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "yata-96c4d": {
+      "hosting": {
+        "app": [
+          "yata-96c4d"
+        ]
+      }
+    }
+  }
+}
