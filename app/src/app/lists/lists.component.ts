@@ -10,10 +10,17 @@ import { List } from '../types';
 })
 export class ListsComponent implements OnInit {
   lists$: Observable<List[]>;
+  newList: string;
 
-  constructor(yataService: YataService) {
+  constructor(private yataService: YataService) {
     this.lists$ = yataService.getLists();
+    this.newList = '';
   }
 
   ngOnInit(): void {}
+
+  makeNewList() {
+    this.yataService.makeNewList({ id: '', name: this.newList, items: [] });
+    this.newList = '';
+  }
 }

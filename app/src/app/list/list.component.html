@@ -1,5 +1,7 @@
 <ng-container *ngIf="list$ | async as list">
-  <h1>{{ list.name }}</h1>
+  <h2>{{ list.name }}</h2>
+
+  <a routerLink="/">&larr; Go back</a>
 
   <ul>
     <li *ngFor="let item of list.items; let i = index">
@@ -13,7 +15,8 @@
     </li>
   </ul>
 
-  <input [(ngModel)]="newItem" /><button (click)="addNewItem(list)">
-    Add new item
-  </button>
+  <form>
+    <input [(ngModel)]="newItem" name="item-text" />
+    <button (click)="addNewItem(list)">Add new item</button>
+  </form>
 </ng-container>

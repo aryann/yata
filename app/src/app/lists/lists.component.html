@@ -3,3 +3,8 @@
     <a routerLink="/lists/{{ list.id }}">{{ list.name }}</a>
   </li>
 </ul>
+
+<form>
+  <input [(ngModel)]="newList" name="list-name" />
+  <button (click)="makeNewList()">Make new list</button>
+</form>

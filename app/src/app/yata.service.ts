@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
+  AngularFirestoreCollection,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
@@ -13,13 +14,11 @@ export class YataService {
   constructor(private firestore: AngularFirestore) {}
 
   getLists(): Observable<List[]> {
-    return this.firestore
-      .collection<List>('lists')
-      .valueChanges({ idField: 'id' });
+    return this.listsRef().valueChanges({ idField: 'id' });
   }
 
-  private listRef(listId: string): AngularFirestoreDocument<List> {
-    return this.firestore.collection('lists').doc(listId);
+  makeNewList(list: List) {
+    this.listsRef().add(list);
   }
 
   getList(listId: string): Observable<any> {
@@ -28,5 +27,13 @@ export class YataService {
 
   updateList(list: List) {
     this.listRef(list.id).update(list);
+  }
+
+  private listsRef(): AngularFirestoreCollection<List> {
+    return this.firestore.collection<List>('lists');
+  }
+
+  private listRef(listId: string): AngularFirestoreDocument<List> {
+    return this.listsRef().doc(listId);
   }
 }
