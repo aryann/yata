@@ -13,10 +13,12 @@ export class ListComponent implements OnInit {
     name: 'My List',
     items: [
       {
+        id: '0',
         text: 'my first item',
         isDone: false,
       },
       {
+        id: '1',
         text: 'my second item',
         isDone: true,
       },

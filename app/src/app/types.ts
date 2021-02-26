@@ -5,6 +5,7 @@ export interface List {
 }
 
 export interface Item {
+  id: string;
   text: string;
   isDone: boolean;
 }
