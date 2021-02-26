@@ -1,1 +1,7 @@
-<p>{{ getItems() }}</p>
+<h1>{{ list.name }}</h1>
+
+<ul>
+  <li *ngFor="let item of list.items" [ngClass]="{ 'item-done': item.isDone }">
+    {{ item.text }}
+  </li>
+</ul>
