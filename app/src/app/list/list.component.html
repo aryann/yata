@@ -10,4 +10,8 @@
       {{ item.text }}
     </li>
   </ul>
+
+  <input [(ngModel)]="newItem" /><button (click)="addNewItem(list)">
+    Add new item
+  </button>
 </ng-container>
