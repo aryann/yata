@@ -14,6 +14,10 @@ export class AuthService {
     });
   }
 
+  get stateLoaded(): boolean {
+    return this.state != null;
+  }
+
   get isAuthenticated(): boolean {
     return this.state != null && this.state.emailVerified;
   }

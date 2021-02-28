@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -7,7 +6,7 @@ import {
 } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { AuthService } from './auth.service';
-import { List, Item } from './types';
+import { List } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +27,6 @@ export class YataService {
 
   makeNewList(list: List) {
     list.ownerUids = [this.auth.uid];
-    list.test = this.auth.uid;
     this.listsRef().add(list);
   }
 

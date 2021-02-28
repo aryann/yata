@@ -32,7 +32,11 @@ export class ListComponent implements OnInit {
   }
 
   addNewItem(list: List) {
-    list.items!.push({ text: this.newItem, isDone: false });
+    list.items!.push({
+      text: this.newItem,
+      isDone: false,
+      createTime: new Date(),
+    });
     this.yataService.updateList(list);
     this.newItem = '';
   }
