@@ -5,18 +5,12 @@
 
   <ul>
     <li *ngFor="let item of list.items; let i = index">
-      <span
-        (click)="markItem(list, i)"
-        [ngClass]="{ 'item-done': item.isDone }"
-        >{{ item.text }}</span
-      >
-      &middot;
-      <a href="javascript:void(0);" (click)="deleteItem(list, i)">delete</a>
+      <app-item [list]="list" [index]="i"></app-item>
     </li>
   </ul>
 
   <form>
-    <input [(ngModel)]="newItem" name="item-text" />
+    <input [(ngModel)]="newItem" name="item-text" autofocus />
     <button (click)="addNewItem(list)">Add new item</button>
   </form>
 </ng-container>

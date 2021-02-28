@@ -1,0 +1,20 @@
+<div
+  class="item"
+  [ngClass]="{ 'item-todo': !item.isDone, 'item-done': item.isDone }"
+>
+  <span (click)="markItem()"> {{ item.text }}</span>
+
+  <span
+    >&nbsp;<a href="javascript:void(0);" (click)="showDetails = !showDetails">
+      <ng-container *ngIf="!showDetails">&raquo;</ng-container>
+      <ng-container *ngIf="showDetails">&laquo;</ng-container>
+    </a></span
+  >
+
+  <ng-container *ngIf="showDetails">
+    <br />
+    Added {{ createTime | date: "medium" }}
+    &middot;
+    <a href="javascript:void(0);" (click)="deleteItem()">delete</a>
+  </ng-container>
+</div>

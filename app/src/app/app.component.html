@@ -7,17 +7,19 @@
   </head>
 
   <body>
-    <h1>{{ title }}</h1>
+    <div class="main">
+      <h1>{{ title }}</h1>
 
-    <ng-container *ngIf="auth.stateLoaded">
-      <ng-container *ngIf="auth.isAuthenticated; else showLogin">
-        <router-outlet></router-outlet>
-        <a href="javascript:void(0);" (click)="auth.logOut()">Log out</a>
+      <ng-container *ngIf="auth.stateLoaded">
+        <ng-container *ngIf="auth.isAuthenticated; else showLogin">
+          <router-outlet></router-outlet>
+          <a href="javascript:void(0);" (click)="auth.logOut()">Log out</a>
+        </ng-container>
+
+        <ng-template #showLogin>
+          <a href="javascript:void(0);" (click)="auth.logIn()">Log in</a>
+        </ng-template>
       </ng-container>
-
-      <ng-template #showLogin>
-        <a href="javascript:void(0);" (click)="auth.logIn()">Log in</a>
-      </ng-template>
-    </ng-container>
+    </div>
   </body>
 </html>

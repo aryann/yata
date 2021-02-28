@@ -8,9 +8,10 @@ import { ListsComponent } from './lists/lists.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+import { ItemComponent } from './item/item.component';
 
 @NgModule({
-  declarations: [AppComponent, ListComponent, ListsComponent],
+  declarations: [AppComponent, ListComponent, ListsComponent, ItemComponent],
   imports: [
     BrowserModule,
     FormsModule,

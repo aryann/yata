@@ -21,21 +21,6 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  markItem(list: List, itemIndex: number) {
-    this.yataService.updateList(list.id!, (list) => {
-      list.items![itemIndex].isDone = !list.items![itemIndex].isDone;
-      return { items: list.items };
-    });
-  }
-
-  deleteItem(list: List, itemIndex: number) {
-    this.yataService.updateList(list.id!, (list) => {
-      const max = 1;
-      list.items!.splice(itemIndex, max);
-      return { items: list.items };
-    });
-  }
-
   addNewItem(list: List) {
     const text = this.newItem;
     this.yataService.updateList(list.id!, (list) => {
