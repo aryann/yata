@@ -1,7 +1,9 @@
 export interface List {
-  id: string;
+  id?: string;
   name: string;
-  items: Item[];
+  items?: Item[];
+  ownerUids?: string[];
+  test?: string;
 }
 
 export interface Item {

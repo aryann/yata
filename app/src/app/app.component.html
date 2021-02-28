@@ -9,13 +9,13 @@
   <body>
     <h1>{{ title }}</h1>
 
-    <ng-container *ngIf="auth.user | async as user; else showLogin">
+    <ng-container *ngIf="auth.isAuthenticated; else showLogin">
       <router-outlet></router-outlet>
-      <a href="javascript:void(0);" (click)="logOut()">Log out</a>
+      <a href="javascript:void(0);" (click)="auth.logOut()">Log out</a>
     </ng-container>
 
     <ng-template #showLogin>
-      <a href="javascript:void(0);" (click)="logIn()">Log in</a>
+      <a href="javascript:void(0);" (click)="auth.logIn()">Log in</a>
     </ng-template>
   </body>
 </html>

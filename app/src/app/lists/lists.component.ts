@@ -20,7 +20,7 @@ export class ListsComponent implements OnInit {
   ngOnInit(): void {}
 
   makeNewList() {
-    this.yataService.makeNewList({ id: '', name: this.newList, items: [] });
+    this.yataService.makeNewList({ name: this.newList });
     this.newList = '';
   }
 }
