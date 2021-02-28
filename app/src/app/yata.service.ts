@@ -3,7 +3,9 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
   AngularFirestoreDocument,
+  DocumentData,
 } from '@angular/fire/firestore';
+import firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { AuthService } from './auth.service';
 import { List } from './types';
@@ -25,25 +27,33 @@ export class YataService {
       .valueChanges({ idField: 'id' });
   }
 
-  makeNewList(list: List) {
+  makeNewList(list: List): void {
     list.ownerUids = [this.auth.uid];
     this.listsRef().add(list);
   }
 
   getList(listId: string): Observable<any> {
-    return this.listRef(listId).valueChanges({ idField: 'id' });
+    return this.listsRef().doc(listId).valueChanges({ idField: 'id' });
   }
 
-  updateList(list: List) {
-    // TODO: Make this transactional.
-    this.listRef(list.id!).update(list);
+  updateList(
+    id: string,
+    updateFn: (list: DocumentData) => firebase.firestore.UpdateData
+  ): void {
+    const ref = this.firestore.firestore.collection('lists').doc(id);
+    this.firestore.firestore.runTransaction(
+      async (txn: firebase.firestore.Transaction) => {
+        const list = await txn.get<DocumentData>(ref);
+        if (!list.exists) {
+          console.log('error');
+          return;
+        }
+        txn.update(ref, updateFn(list.data()!));
+      }
+    );
   }
 
   private listsRef(): AngularFirestoreCollection<List> {
     return this.firestore.collection<List>('lists');
-  }
-
-  private listRef(listId: string): AngularFirestoreDocument<List> {
-    return this.listsRef().doc(listId);
   }
 }

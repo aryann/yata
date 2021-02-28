@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { List } from '../types';
@@ -21,23 +22,31 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {}
 
   markItem(list: List, itemIndex: number) {
-    list.items![itemIndex].isDone = !list.items![itemIndex].isDone;
-    this.yataService.updateList(list);
+    this.yataService.updateList(list.id!, (list) => {
+      list.items![itemIndex].isDone = !list.items![itemIndex].isDone;
+      return { items: list.items };
+    });
   }
 
   deleteItem(list: List, itemIndex: number) {
-    const max = 1;
-    list.items!.splice(itemIndex, max);
-    this.yataService.updateList(list);
+    this.yataService.updateList(list.id!, (list) => {
+      const max = 1;
+      list.items!.splice(itemIndex, max);
+      return { items: list.items };
+    });
   }
 
   addNewItem(list: List) {
-    list.items!.push({
-      text: this.newItem,
-      isDone: false,
-      createTime: new Date(),
+    const text = this.newItem;
+    this.yataService.updateList(list.id!, (list) => {
+      list.items!.push({
+        text: text,
+        isDone: false,
+        createTime: new Date(),
+      });
+      return { items: list.items };
     });
-    this.yataService.updateList(list);
+
     this.newItem = '';
   }
 }
