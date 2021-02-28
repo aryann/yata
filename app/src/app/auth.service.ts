@@ -7,15 +7,17 @@ import firebase from 'firebase/app';
 })
 export class AuthService {
   private state: firebase.User | null = null;
+  private loaded: boolean = false;
 
   constructor(public auth: AngularFireAuth) {
     this.auth.authState.subscribe((state: firebase.User | null) => {
+      this.loaded = true;
       this.state = state;
     });
   }
 
   get stateLoaded(): boolean {
-    return this.state != null;
+    return this.loaded;
   }
 
   get isAuthenticated(): boolean {
