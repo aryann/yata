@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthService } from '../auth.service';
 import { List } from '../types';
 import { YataService } from '../yata.service';
 
@@ -13,15 +14,21 @@ import { YataService } from '../yata.service';
 export class ListComponent implements OnInit {
   list$: Observable<List>;
   newItem: string;
+  newOwner: string;
 
-  constructor(route: ActivatedRoute, private yataService: YataService) {
+  constructor(
+    route: ActivatedRoute,
+    private yataService: YataService,
+    public auth: AuthService
+  ) {
     this.list$ = yataService.getList(route.snapshot.paramMap.get('id') || '');
     this.newItem = '';
+    this.newOwner = '';
   }
 
   ngOnInit(): void {}
 
-  addNewItem(list: List) {
+  addNewItem(list: List): void {
     const text = this.newItem;
     this.yataService.updateList(list.id!, (list) => {
       list.items!.push({
@@ -33,5 +40,29 @@ export class ListComponent implements OnInit {
     });
 
     this.newItem = '';
+  }
+
+  grantPermission(list: List): void {
+    const newOwner = this.newOwner;
+    this.yataService.updateList(list.id!, (list) => {
+      if (list.ownerEmails.includes(newOwner)) {
+        return {};
+      }
+
+      list.ownerEmails.push(newOwner);
+      return { ownerEmails: list.ownerEmails };
+    });
+
+    this.newOwner = '';
+  }
+
+  removePermission(list: List, email: string): void {
+    this.yataService.updateList(list.id!, (list) => {
+      const idx: number = list.ownerEmails.indexOf(email);
+      const max = 1;
+      list.ownerEmails.splice(idx, max);
+
+      return { ownerEmails: list.ownerEmails };
+    });
   }
 }

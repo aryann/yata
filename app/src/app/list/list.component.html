@@ -3,14 +3,38 @@
 
   <a routerLink="/">&larr; Go back</a>
 
-  <ul>
-    <li *ngFor="let item of list.items; let i = index">
+  <ul class="item-ul">
+    <li *ngFor="let item of list.items; let i = index" class="item-li">
       <app-item [list]="list" [index]="i"></app-item>
     </li>
   </ul>
 
+  <h3>Add New Items</h3>
   <form>
     <input [(ngModel)]="newItem" name="item-text" autofocus />
     <button (click)="addNewItem(list)">Add new item</button>
+  </form>
+
+  <h3>Permissions</h3>
+  <h4>Existing Permissions</h4>
+
+  <ul>
+    <li *ngFor="let ownerEmail of list.ownerEmails">
+      {{ ownerEmail }}
+      <ng-container *ngIf="ownerEmail != auth.email">
+        &middot;
+        <a
+          href="javascript:void(0);"
+          (click)="removePermission(list, ownerEmail)"
+          >delete</a
+        >
+      </ng-container>
+    </li>
+  </ul>
+
+  <h4>Grant New Permissions</h4>
+  <form>
+    <input [(ngModel)]="newOwner" name="new-owner" />
+    <button (click)="grantPermission(list)">Grant permission</button>
   </form>
 </ng-container>
