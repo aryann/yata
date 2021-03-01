@@ -30,6 +30,10 @@ export class ListComponent implements OnInit {
 
   addNewItem(list: List): void {
     const text = this.newItem;
+    if (text.length == 0) {
+      return;
+    }
+
     this.yataService.updateList(list.id!, (list) => {
       list.items!.push({
         text: text,
@@ -44,6 +48,10 @@ export class ListComponent implements OnInit {
 
   grantPermission(list: List): void {
     const newOwner = this.newOwner;
+    if (newOwner.length == 0) {
+      return;
+    }
+
     this.yataService.updateList(list.id!, (list) => {
       if (list.ownerEmails.includes(newOwner)) {
         return {};
