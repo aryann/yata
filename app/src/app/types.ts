@@ -2,7 +2,7 @@ export interface List {
   id?: string;
   name: string;
   items: Item[];
-  ownerUids?: string[];
+  ownerEmails?: string[];
 }
 
 export interface Item {

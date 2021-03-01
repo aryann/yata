@@ -24,8 +24,8 @@ export class AuthService {
     return this.state != null && this.state.emailVerified;
   }
 
-  get uid(): string {
-    return this.state!.uid;
+  get email(): string {
+    return this.state!.email!;
   }
 
   logIn() {

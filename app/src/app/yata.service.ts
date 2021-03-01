@@ -19,16 +19,15 @@ export class YataService {
   getLists(): Observable<List[]> {
     return this.firestore
       .collection<List>('lists', (ref) => {
-        console.log(this.auth.uid);
         return ref
-          .where('ownerUids', 'array-contains', this.auth.uid)
+          .where('ownerEmails', 'array-contains', this.auth.email)
           .orderBy('name');
       })
       .valueChanges({ idField: 'id' });
   }
 
   makeNewList(list: List): void {
-    list.ownerUids = [this.auth.uid];
+    list.ownerEmails = [this.auth.email];
     this.listsRef().add(list);
   }
 
