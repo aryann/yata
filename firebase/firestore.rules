@@ -1,0 +1,16 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /lists/{list} {
+      allow read, update, delete: if
+        request.auth != null &&
+        request.auth.token.email_verified &&
+        request.auth.token.email in resource.data.ownerEmails
+
+    	allow create: if
+        request.auth != null &&
+        request.auth.token.email_verified
+    }
+  }
+}
