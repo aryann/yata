@@ -3,11 +3,23 @@
 
   <a routerLink="/">&larr; Go back</a>
 
-  <ul class="item-ul">
-    <li *ngFor="let item of list.items; let i = index" class="item-li">
-      <app-item [list]="list" [index]="i"></app-item>
-    </li>
-  </ul>
+  <div cdkDropListGroup>
+    <ul
+      class="item-ul"
+      cdkDropList
+      [cdkDropListData]="list.items"
+      (cdkDropListDropped)="drop(list, $event)"
+    >
+      <li
+        *ngFor="let item of list.items; let i = index"
+        class="item-li"
+        [cdkDragData]="item"
+        cdkDrag
+      >
+        <app-item [list]="list" [index]="i"></app-item>
+      </li>
+    </ul>
+  </div>
 
   <h3>Add New Items</h3>
   <form>
