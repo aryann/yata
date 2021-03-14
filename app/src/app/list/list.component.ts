@@ -11,7 +11,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { isEqual } from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 
 @Component({
   selector: 'app-list',
@@ -85,20 +85,20 @@ export class ListComponent implements OnInit {
     if (event.previousContainer !== event.container) {
       return;
     }
+    const existingItems = cloneDeep(list.items);
+    moveItemInArray(
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
 
     this.yataService.updateList(list.id!, (currentList) => {
-      if (!isEqual(currentList.items, list.items)) {
+      if (!isEqual(existingItems, currentList.items)) {
+        // There is no need to restore the state of the list because that
+        // we are already watching the Firestore object.
         throw new Error('concurrent modification');
       }
-
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
       return { items: event.container.data };
     });
-
-    console.log(event.container);
   }
 }
