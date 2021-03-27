@@ -16,7 +16,13 @@
         [cdkDragData]="item"
         cdkDrag
       >
-        <app-item [list]="list" [index]="i"></app-item>
+        <div
+          class="item"
+          [ngClass]="{ 'item-todo': !item.isDone, 'item-done': item.isDone }"
+        >
+          <span cdkDragHandle>#</span>
+          <app-item [list]="list" [index]="i"></app-item>
+        </div>
       </li>
     </ul>
   </div>
