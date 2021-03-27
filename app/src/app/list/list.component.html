@@ -20,7 +20,7 @@
           class="item"
           [ngClass]="{ 'item-todo': !item.isDone, 'item-done': item.isDone }"
         >
-          <span cdkDragHandle>#</span>
+          <div cdkDragHandle>#</div>
           <app-item [list]="list" [index]="i"></app-item>
         </div>
       </li>
