@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 import { ItemComponent } from './item/item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [AppComponent, ListComponent, ListsComponent, ItemComponent],
@@ -22,6 +23,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AngularFirestoreModule,
     BrowserAnimationsModule,
     DragDropModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
