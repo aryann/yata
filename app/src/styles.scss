@@ -57,12 +57,12 @@ pre code {
 
 .item-li {
   list-style: none;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
 }
 
 .item {
   box-shadow: 1px 1px 2px 0 grey;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .item-todo {
@@ -71,6 +71,10 @@ pre code {
 
 .item-done {
   background-color: lightgreen;
+}
+
+.cdk-drag-preview {
+  font-size: 1.3rem;
 }
 
 .cdk-drag-placeholder {
