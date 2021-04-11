@@ -58,7 +58,7 @@ class AuthContainer extends React.Component<{}, { userStatus: UserStatus }> {
     console.log(this.state.userStatus);
     switch (this.state.userStatus) {
       case UserStatus.Loading:
-        body = <p>Loading...</p>;
+        body = <Loading />;
         break;
       case UserStatus.LoggedIn:
         body = (
@@ -96,6 +96,37 @@ class LogIn extends React.Component {
 
   render() {
     return <div id="login-choices"></div>;
+  }
+}
+
+class Loading extends React.Component<{}, { idx: number }> {
+  private intervalID: NodeJS.Timeout | null;
+  private readonly chars = "⣾⣽⣻⢿⡿⣟⣯⣷";
+
+  constructor(props: {}) {
+    super(props);
+    this.intervalID = null;
+    this.state = { idx: 0 };
+  }
+
+  componentDidMount() {
+    this.intervalID = setInterval(() => this.tick(), 100);
+  }
+
+  componentWillUnmount() {
+    if (this.intervalID) {
+      clearInterval(this.intervalID);
+    }
+  }
+
+  tick() {
+    this.setState((prevState) => {
+      return { idx: prevState.idx + 1 };
+    });
+  }
+
+  render() {
+    return <span>{this.chars[this.state.idx % this.chars.length]}</span>;
   }
 }
 
