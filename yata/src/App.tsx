@@ -11,15 +11,17 @@ enum UserStatus {
 }
 
 class AuthContainer extends React.Component<{}, { userStatus: UserStatus }> {
+  private authListener: firebase.Unsubscribe | null;
+
   constructor(props: any) {
     super(props);
     this.state = { userStatus: UserStatus.Loading };
-    this.loggedIn = this.loggedIn.bind(this);
+    this.authListener = null;
     this.logOut = this.logOut.bind(this);
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged((user) => {
+    this.authListener = firebase.auth().onAuthStateChanged((user) => {
       let newStatus;
       if (user) {
         newStatus = UserStatus.LoggedIn;
@@ -33,22 +35,17 @@ class AuthContainer extends React.Component<{}, { userStatus: UserStatus }> {
     });
   }
 
-  loggedIn(): boolean {
-    this.setState({
-      userStatus: UserStatus.LoggedIn,
-    });
-    return false;
+  componentWillUnmount() {
+    if (this.authListener) {
+      this.authListener();
+    }
   }
 
   logOut(): boolean {
     firebase
       .auth()
       .signOut()
-      .then(() => {
-        this.setState({
-          userStatus: UserStatus.NotLoggedIn,
-        });
-      })
+      .then(() => {})
       .catch((error) => {
         // TODO(aryann): Implement an error boundary.
         console.log(error);
@@ -58,6 +55,7 @@ class AuthContainer extends React.Component<{}, { userStatus: UserStatus }> {
 
   render() {
     let body;
+    console.log(this.state.userStatus);
     switch (this.state.userStatus) {
       case UserStatus.Loading:
         body = <p>Loading...</p>;
@@ -70,7 +68,7 @@ class AuthContainer extends React.Component<{}, { userStatus: UserStatus }> {
         );
         break;
       case UserStatus.NotLoggedIn:
-        body = <LogIn loggedIn={this.loggedIn} />;
+        body = <LogIn />;
         break;
     }
 
@@ -85,7 +83,7 @@ class AuthContainer extends React.Component<{}, { userStatus: UserStatus }> {
   }
 }
 
-class LogIn extends React.Component<{ loggedIn: () => boolean }, {}> {
+class LogIn extends React.Component {
   componentDidMount() {
     let ui =
       firebaseui.auth.AuthUI.getInstance() ||
@@ -93,10 +91,6 @@ class LogIn extends React.Component<{ loggedIn: () => boolean }, {}> {
 
     ui.start("#login-choices", {
       signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-
-      callbacks: {
-        signInSuccessWithAuthResult: this.props.loggedIn,
-      },
     });
   }
 
